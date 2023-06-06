@@ -12,7 +12,8 @@ database = client.employees
 
 student_collection = database.get_collection("students_collection")
 
-student_address_collection = database.get_collection("students_address_collection")
+student_address_collection = database.get_collection(
+    "students_address_collection")
 
 
 def student_helper(student) -> dict:
@@ -36,11 +37,14 @@ def student_address_helper(student_address) -> dict:
         "country": student_address["country"]
     }
 # Retrieve all students present in the database
+
+
 async def retrieve_students():
     students = []
     async for student in student_collection.find():
         students.append(student_helper(student))
     return students
+
 
 async def retrieve_students_address():
     students_address = []
@@ -84,7 +88,8 @@ async def delete_student(id: str):
     if student:
         await student_collection.delete_one({"_id": ObjectId(id)})
         return True
-    
+
+
 async def add_student_address(id: str, data: dict):
     student_id = await student_collection.find_one({"_id": ObjectId(id)})
     new_student = await student_address_collection.count_documents(({"pk": student_id['_id']}))
@@ -96,10 +101,9 @@ async def add_student_address(id: str, data: dict):
     else:
         return False
 
+
 async def delete_student_address(id: str):
     student_address = await student_address_collection.find_one({"_id": ObjectId(id)})
     if student_address:
         await student_address_collection.delete_one({"_id": ObjectId(id)})
         return True
-    
-
