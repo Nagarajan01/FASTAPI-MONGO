@@ -53,8 +53,8 @@ async def get_student_data(id):
 
 
 @router.post("/students_address/{id}")
-async def add_student_address_data(id: str, body: Dict ):
-    req = {k: v for k, v in body.items() if v is not None}
+async def add_student_address_data(id: str,  req: StudentAddressSchema = Body(...)):
+    req = {k: v for k, v in dict(req).items() if v is not None}
     updated_student = await add_student_address(id, req)
     if updated_student:
         updated_student['pk'] = str(updated_student['pk'])
@@ -66,7 +66,7 @@ async def add_student_address_data(id: str, body: Dict ):
     return ErrorResponseModel(
         "An error occurred",
         404,
-        "There was an error updating the student data.",
+        "There was an error creating the student data.",
     )
 
 @router.delete("/{id}", response_description="Student data deleted from the database")

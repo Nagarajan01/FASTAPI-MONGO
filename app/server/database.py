@@ -87,11 +87,14 @@ async def delete_student(id: str):
     
 async def add_student_address(id: str, data: dict):
     student_id = await student_collection.find_one({"_id": ObjectId(id)})
-    data["pk"] = student_id['_id']
-    add_student_address = await student_address_collection.insert_one(data)
-    new_student = await student_address_collection.find_one({"_id": add_student_address.inserted_id}, {'_id': 0})
-    return new_student
-
+    new_student = await student_address_collection.count_documents(({"pk": student_id['_id']}))
+    if new_student == 0:
+        data["pk"] = student_id['_id']
+        add_student_address = await student_address_collection.insert_one(data)
+        new_student = await student_address_collection.find_one({"_id": add_student_address.inserted_id}, {'_id': 0})
+        return new_student
+    else:
+        return False
 
 async def delete_student_address(id: str):
     student_address = await student_address_collection.find_one({"_id": ObjectId(id)})

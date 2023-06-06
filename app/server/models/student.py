@@ -26,7 +26,7 @@ class StudentAddressSchema(BaseModel):
     city: str = Field(...)
     state: str = Field(...)
     country: str = Field(...)
-    id : Optional[str] = Field(...)
+    pk : Optional[str] = None
 
     class Config:
         schema_extra = {
