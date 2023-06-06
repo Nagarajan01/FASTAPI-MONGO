@@ -22,6 +22,7 @@ from typing import Dict
 
 router = APIRouter()
 
+
 @router.post("/", response_description="Student data added into the database")
 async def add_student_data(student: StudentSchema = Body(...)):
     student = jsonable_encoder(student)
@@ -43,6 +44,7 @@ async def get_students_address():
     if students:
         return ResponseModel(students, "Students Address data retrieved successfully")
     return ResponseModel(students, "Empty list returned")
+
 
 @router.get("/{id}", response_description="Student data retrieved")
 async def get_student_data(id):
@@ -69,27 +71,34 @@ async def add_student_address_data(id: str,  req: StudentAddressSchema = Body(..
         "There was an error creating the student data.",
     )
 
+
 @router.delete("/{id}", response_description="Student data deleted from the database")
 async def delete_student_data(id: str):
     deleted_student = await delete_student(id)
     if deleted_student:
         return ResponseModel(
-            "Student with ID: {} removed".format(id), "Student deleted successfully"
+            "Student with ID: {} removed".format(
+                id), "Student deleted successfully"
         )
     return ErrorResponseModel(
-        "An error occurred", 404, "Student with id {0} doesn't exist".format(id)
+        "An error occurred", 404, "Student with id {0} doesn't exist".format(
+            id)
     )
+
 
 @router.delete("/students_address/{id}", response_description="Student data deleted from the database")
 async def delete_student_address_data(id: str):
     deleted_student = await delete_student_address(id)
     if deleted_student:
         return ResponseModel(
-            "Student with ID: {} removed".format(id), "Student deleted successfully"
+            "Student with ID: {} removed".format(
+                id), "Student deleted successfully"
         )
     return ErrorResponseModel(
-        "An error occurred", 404, "Student with id {0} doesn't exist".format(id)
+        "An error occurred", 404, "Student with id {0} doesn't exist".format(
+            id)
     )
+
 
 @router.put("/{id}")
 async def update_student_data(id: str, req: UpdateStudentModel = Body(...)):

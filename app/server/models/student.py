@@ -21,12 +21,13 @@ class StudentSchema(BaseModel):
             }
         }
 
+
 class StudentAddressSchema(BaseModel):
     street_no: str = Field(...)
     city: str = Field(...)
     state: str = Field(...)
     country: str = Field(...)
-    pk : Optional[str] = None
+    pk: Optional[str] = None
 
     class Config:
         schema_extra = {
@@ -37,6 +38,7 @@ class StudentAddressSchema(BaseModel):
                 "country": "India"
             }
         }
+
 
 class UpdateStudentModel(BaseModel):
     fullname: Optional[str]
@@ -67,4 +69,3 @@ def ResponseModel(data, message):
 
 def ErrorResponseModel(error, code, message):
     return {"error": error, "code": code, "message": message}
-
